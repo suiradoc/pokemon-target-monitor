@@ -1,0 +1,13 @@
+node_modules/
+dist/
+
+# Sensitive
+.env
+
+# User data (generated at runtime)
+data.json
+stock-history.json
+
+# Electron build artifacts
+out/
+*.exe

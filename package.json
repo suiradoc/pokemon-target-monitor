@@ -1,0 +1,46 @@
+{
+  "name": "pokemon-monitor",
+  "version": "6.0.0",
+  "type": "module",
+  "description": "Pokemon Target drop monitor with web dashboard and local AI predictions",
+  "main": "electron.cjs",
+  "scripts": {
+    "start": "node server.js",
+    "electron": "electron .",
+    "dist": "electron-builder",
+    "monitor-only": "node monitor-legacy.js"
+  },
+  "build": {
+    "appId": "com.pokemon.target-monitor",
+    "productName": "Pokemon Target Monitor",
+    "files": [
+      "electron.cjs",
+      "server.js",
+      "src/**/*",
+      "public/**/*",
+      "package.json"
+    ],
+    "extraFiles": [],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": "dmg"
+    }
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "node-notifier": "^10.0.1",
+    "puppeteer-core": "^22.0.0",
+    "ws": "^8.20.0"
+  },
+  "devDependencies": {
+    "electron": "^41.0.3",
+    "electron-builder": "^26.8.1"
+  }
+}
