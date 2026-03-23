@@ -147,6 +147,7 @@ function populateConfig() {
   document.getElementById('auto-open').checked = c.autoOpenBrowser ?? true;
   document.getElementById('sound-enabled').checked = c.sound ?? true;
   document.getElementById('auto-add-cart').checked = c.autoAddToCart ?? false;
+  document.getElementById('zip-code').value = c.zipCode ?? '';
 }
 
 // ─── Actions ──────────────────────────────────────────────────────────────
@@ -160,6 +161,7 @@ document.getElementById('save-config').addEventListener('click', async () => {
     autoOpenBrowser: document.getElementById('auto-open').checked,
     sound: document.getElementById('sound-enabled').checked,
     autoAddToCart: document.getElementById('auto-add-cart').checked,
+    zipCode: document.getElementById('zip-code').value.trim(),
   };
   await fetch('/api/config', {
     method: 'POST',

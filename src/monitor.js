@@ -104,6 +104,17 @@ async function checkProduct(product) {
       }
     });
 
+    // Set zipcode cookie if configured
+    const zip = config.zipCode;
+    if (zip) {
+      await page.setCookie({
+        name: 'GuestLocation',
+        value: `${zip}|0|0|false|false`,
+        domain: '.target.com',
+        path: '/',
+      });
+    }
+
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
     await new Promise(r => setTimeout(r, 3000));
 

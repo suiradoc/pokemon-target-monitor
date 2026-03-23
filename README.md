@@ -1,44 +1,82 @@
-# 🎴 Pokemon Target Drop Monitor
+# Pokemon Target Drop Monitor
 
-Polls Target's internal product API every 25 seconds.
-When stock appears, it fires a desktop notification and auto-opens
-the product page — which triggers your Tampermonkey ATC script.
+Desktop app that monitors Target.com for Pokemon TCG product restocks. When stock is detected, it sends desktop notifications, auto-opens the product page, and can automatically add items to your cart.
 
-## Setup (one time)
+## Features
 
-1. Install Node.js from https://nodejs.org  (LTS version)
-2. Open a terminal / command prompt in this folder
-3. Run:  npm install
+- **Real-time stock monitoring** — Checks Target product pages every 10 seconds using headless Chrome
+- **Auto-add to cart** — Automatically clicks "Add to Cart" when a drop is detected
+- **Desktop notifications** — Alerts with sound when stock is found
+- **Electron desktop app** — Runs as a standalone app with a web dashboard
+- **AI restock predictions** — Uses Ollama (local LLM) to analyze stock patterns and predict restocks
+- **ZIP code support** — Set your ZIP for local store pickup availability
+- **Persistent config** — Products and settings saved between restarts
+
+## Setup
+
+1. Install [Node.js](https://nodejs.org) (LTS version)
+2. Clone this repo and install dependencies:
+
+```bash
+git clone https://github.com/suiradoc/pokemon-target-monitor.git
+cd pokemon-target-monitor
+npm install
+```
+
+3. (Optional) Install [Ollama](https://ollama.com) for AI predictions:
+
+```bash
+ollama pull llama3.1
+```
 
 ## Running
 
-```
-node monitor.js
-```
+**As a desktop app (Electron):**
 
-Leave it running in the background. You'll see a live status line
-for each product every 25 seconds. When something goes in stock
-you get a desktop popup and the page opens automatically.
-
-Press Ctrl+C to stop.
-
-## Adding products
-
-Open monitor.js and add entries to the `products` array:
-
-```js
-{ name: 'Whatever Set', tcin: '12345678' },
+```bash
+npm run electron
 ```
 
-The TCIN is the number in the Target URL:
-  https://www.target.com/p/name/-/A-XXXXXXXX
-                                     ^^^^^^^^ this part
+Or double-click `start.vbs` (Windows) for a hidden background launch.
 
-## Config options (top of monitor.js)
+**As a web server only:**
 
-| Option               | Default | Description                          |
-|----------------------|---------|--------------------------------------|
-| pollIntervalSeconds  | 25      | How often to check (min 20)          |
-| zipCode              | 75067   | Your ZIP for local availability      |
-| autoOpenBrowser      | true    | Open browser tab when in stock       |
-| sound                | true    | Play sound with desktop notification |
+```bash
+npm start
+```
+
+Then open http://localhost:3000 in your browser.
+
+## Adding Products
+
+Use the dashboard UI — enter a product name and TCIN, then click "Add".
+
+The TCIN is the number at the end of any Target product URL:
+
+```
+https://www.target.com/p/product-name/-/A-95230445
+                                          ^^^^^^^^ TCIN
+```
+
+## Settings
+
+All configurable from the dashboard gear icon:
+
+| Option                | Default | Description                              |
+|-----------------------|---------|------------------------------------------|
+| Poll interval         | 10s     | How often to check stock                 |
+| Auto-open browser     | On      | Open Target page when stock is found     |
+| Sound notifications   | On      | Play sound with desktop alert            |
+| Auto-add to cart      | Off     | Automatically add to cart on detection   |
+| ZIP code              | —       | Your ZIP for local store availability    |
+
+## Tech Stack
+
+- **Puppeteer** — Headless Chrome for stock detection
+- **Express + WebSocket** — Real-time dashboard
+- **Electron** — Desktop app wrapper
+- **Ollama** — Local AI for restock predictions (no API keys needed)
+
+## License
+
+MIT

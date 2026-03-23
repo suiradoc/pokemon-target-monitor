@@ -28,6 +28,7 @@ const DEFAULTS = {
     autoOpenBrowser: true,
     sound: true,
     autoAddToCart: false,
+    zipCode: '',
   },
 };
 
